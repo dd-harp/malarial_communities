@@ -1,0 +1,53 @@
+EDUCATIONAL USE AND ACADEMIC RESEARCH
+Licensed Material
+
+LandScan 2017™ High Resolution Global Population Data Set (hereinafter “LandScan”); U.S. Copyright registration submitted to Library of Congress; registration number pending.
+
+UT-Battelle, LLC (UT-Battelle) is a contractor to the U.S. Department of Energy (DOE) under contract DE-AC05-00OR22725 and, having developed LandScan under the contract, owns and has obtained the right to assert copyright in the LandScan. To obtain a license to the LandScan copyrights, you must 1) review this agreement; 2) signify your acknowledgement and agreement by signing below; and 3) return the signed Agreement to UT-Battelle.
+
+UT-Battelle hereby grants to the Licensee a nonexclusive, royalty-free, license to use LandScan for educational and academic research purposes only, subject to the following conditions:
+
+    LandScan will be used only by the Licensee.
+    LandScan will not be duplicated (except as necessary for backup or archival purposes).
+    Licensee will submit to UT-Battelle any changes, modifications to, or derivative works of LandScan. Changes or modifications to, or derivative works of LandScan must be noted with comments and the name of Licensee.
+    Subject to the limited exclusion in paragraph 3 above, redistribution of LandScan or derivative works thereof is prohibited.
+    Neither the names of UT-Battelle, LLC or the Department of Energy may be used to endorse or promote products created using LandScan without specific prior written permission of UT-Battelle.
+
+Products, including graphs or pictorial representations, which are produced or generated utilizing LandScan should carry the notice as set forth in the attached EXHIBIT. Licensee acknowledges that LandScan herein will be out of date after September 30, 2018, and that the use of LandScan by the Licensee past that date is not recommended by UT-Battelle.
+
+LandScan is supplied AS IS, without any accompanying services or improvements from UT-Battelle, unless otherwise contracted and this exchange is entered into to encourage scientific collaboration aimed at further development and application of LandScan. Commercial uses or applications of LandScan is prohibited under this Agreement. Please contact UT-Battelle's Office of Technology Transfer if you require a commercial license.
+
+Licensee agrees to use its best efforts to provide UT-Battelle information on an annual basis about its utilization of LandScan including a list of publications or presentations wherein LandScan is used.
+
+LandScan is subject to Export Control Regulations under the US Department of Commerce. The Commodity Classification Number (ECCN) for LandScan is EAR99. Export of the Data Set, including the deemed export to foreign nationals within the U.S., may require some form of export control license or other authority from the U.S. Government. Failure to obtain such export control license may result in criminal liability under U.S. law. In addition, LandScan may not be used to provide direct assistance for Military, Space, Missiles, and Sensitive Nuclear Technology applications.
+
+DISCLAIMER
+
+LANDSCAN IS SUPPLIED BY UT-BATTELLE "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL UT-BATTELLE, THE UNITED STATES GOVERNMENT, OR THE UNITED STATES DEPARTMENT OF ENERGY BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF LANDSCAN, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+NEITHER UT-BATTELLE, THE UNITED STATES GOVERNMENT, NOR THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF THEIR EMPLOYEES, REPRESENTS THAT THE USE OF ANY INFORMATION, DATA, APPARATUS, PRODUCT, OR PROCESS DISCLOSED WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.  
+ 
+
+EXHIBIT: MARKING OF PRODUCTS
+
+Licensee agrees to apply the following notice to all tangible forms of products, including graphs or pictorial presentations, which are produced or generated utilizing the licensed LandScan 2017™ High Resolution Global Population Data Set, or to the packaging thereof if direct application to products is not feasible:
+
+Notice: This product was made utilizing the LandScan 2017™ High Resolution Global Population Data Set copyrighted by UT-Battelle, LLC, operator of Oak Ridge National Laboratory under Contract No. DE-AC05-00OR22725 with the United States Department of Energy. The United States Government has certain rights in this Data Set. NEITHER UT-BATTELLE, LLC NOR THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF THE DATA SET.
+
+If the product is a single image or something similar where space does not permit use of the entire notice shown above, Licensee shall apply the following credit line to such images or similar products:
+
+Source: LandScan 2017™, ORNL, UT-Battelle, LLC
+
+Address for Correspondence with UT-Battelle, LLC:
+
+LandScan Licensing Team
+UT-Battelle, LLC
+One Bethel Valley Road
+Bldg: 5600, MS-6017
+Oak Ridge, Tennessee 37831-6017
+
+Email Address: LandScanRegister@ornl.gov
+Phone Number: (865) 241-3976
+Facsimile No.: (865) 576-7543
+
+LandScan 2017™ Educational
