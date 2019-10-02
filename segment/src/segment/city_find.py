@@ -35,7 +35,7 @@ def largest_within_distance(band, distance, bounding_box_pixels=None):
             for (x, y) in product(range(*x_limits), range(map.shape[1])):
                 if map[x, y] > map[i, map_j]:
                     minimum_distance = min(minimum_distance, (x - i)**2 + (y - map_j)**2)
-            if minimum_distance > dx2 and minimum_distance < maximum_distance:
+            if minimum_distance > dx2:
                 peaks.append((minimum_distance, i, j))
             else:
                 not_a_peak += 1
