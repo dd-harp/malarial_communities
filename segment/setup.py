@@ -8,6 +8,7 @@ setup(
     use_scm_version={"root": "..", "relative_to": __file__},
     setup_requires=["setuptools_scm"],
     install_requires=[
+        "geographiclib",
         "networkx",
         "numpy",
         "pandas",
@@ -22,6 +23,7 @@ setup(
     entry_points = {
         "console_scripts": [
             "citypeaks=segment.find_cities:entry",
+            "citysplit=segment.split_cities:entry",
         ]
     },
     classifiers=[

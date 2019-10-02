@@ -7,6 +7,7 @@ from osgeo import gdal
 LOGGER = logging.getLogger(__name__)
 BandType = namedtuple("BandType", "gdal numpy")
 INT32 = BandType(gdal.GDT_Int32, np.int32)
+FLOAT64 = BandType(gdal.GDT_Float64, np.double)
 
 
 def band_as_numpy(band, data_type=None):

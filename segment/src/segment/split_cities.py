@@ -2,27 +2,18 @@
 Reads a file with city peaks. Assigns a flow graph to it.
 Partitions that flow graph into smaller parts.
 """
-import csv
 import logging
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from datetime import datetime
 from inspect import getfile, getmodule
-from hashlib import sha256
 from pathlib import Path
-from secrets import token_hex
 
 from osgeo import gdal
 
 from .communities import split_graph, save_pandas
+from .flux import create_city_flows
 from .input_data import load_lspop, load_cities, load_pfpr
-from .raster_transform import LongLat, pixel_corners_of_longlat_box
-from .city_find import largest_within_distance
 
 LOGGER = logging.getLogger(__name__)
-
-
-def read_pfpr(pfpr_path):
-    pass
 
 
 def parser():

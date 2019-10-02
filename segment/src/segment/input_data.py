@@ -1,9 +1,13 @@
 import logging
+from collections import namedtuple
 
 import numpy as np
 from osgeo import gdal
 
 LOGGER = logging.getLogger(__name__)
+
+
+Raster = namedtuple("Raster", "dataset band")
 
 
 def load_lspop(landscan_file):
@@ -18,7 +22,7 @@ def load_lspop(landscan_file):
     assert str(gdal.GetDataTypeName(band.DataType)) == "Int32"
     projection = dataset.GetProjection()
     assert "WGS 84" in str(projection)
-    return dataset, band
+    return Raster(dataset, band)
 
 
 def load_cities(peaks_path):
@@ -56,4 +60,4 @@ def load_pfpr(pfpr_file):
         raise RuntimeError(f"Data type for pfpr is {data_type}")
     projection = dataset.GetProjection()
     assert "WGS 84" in str(projection)
-    return dataset, band
+    return Raster(dataset, band)
