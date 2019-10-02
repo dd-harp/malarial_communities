@@ -34,3 +34,12 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+
+# Data files for geo data
+*.dbf
+*.shp
+*.shx
+*.zip
+.eggs/
+.idea/
+city_peaks.csv
