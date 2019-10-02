@@ -22,13 +22,15 @@ def largest_within_distance(band, distance, bounding_box_pixels=None):
     if not bounding_box_pixels:
         bounding_box_pixels = LongLat([0, band.XSize], [0, band.YSize])
     for j in progressbar(range(*bounding_box_pixels.lat)):
-        y_limits = (max(0, j - distance), min(band.YSize, j + distance + 1))
+        y_limits = (int(max(0, j - distance)),
+                    int(min(band.YSize, j + distance + 1)))
         map_j = j - y_limits[0]
         map = sub_band_as_numpy(band, y_limits)
         for i in range(*bounding_box_pixels.long):
             if map[i, map_j] < value_range[0] + 1:
                 continue
-            x_limits = (max(0, i - distance), min(band.XSize, i + distance + 1))
+            x_limits = (int(max(0, i - distance)),
+                        int(min(band.XSize, i + distance + 1)))
             minimum_distance = maximum_distance
             for (x, y) in product(range(*x_limits), range(map.shape[1])):
                 if map[x, y] > map[i, map_j]:

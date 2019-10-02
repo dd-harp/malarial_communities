@@ -15,7 +15,6 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from datetime import datetime
 from inspect import getfile, getmodule
 from hashlib import sha256
-from os import linesep
 from pathlib import Path
 from secrets import token_hex
 
@@ -64,6 +63,10 @@ def parser():
     parse_obj.add_argument("--lat", type=float, nargs="+",
                            default=[kampala.lat, moroto.lat],
                            help="Min and max latitude")
+    parse_obj.add_argument("--verbose", "-v", action="count", help="verbose",
+                           default=0)
+    parse_obj.add_argument("--quiet", "-q", action="count", help="quiet",
+                           default=0)
     return parse_obj
 
 
@@ -82,7 +85,8 @@ def write_args(out_path, args, additional):
 
 def entry():
     args = parser().parse_args()
-    logging.basicConfig(level=logging.DEBUG)
+    logging_level = logging.INFO - 10 * args.verbose + 10 * args.quiet
+    logging.basicConfig(level=logging_level)
 
     assert args.peak_radius > 0
     if not args.peaks.parent.exists():
@@ -97,6 +101,11 @@ def entry():
     bounding_box = [LongLat(args.long[i], args.lat[i]) for i in [0, 1]]
     geo_transform = lspop_dataset.GetGeoTransform()
     uganda_pixel_range = pixel_corners_of_longlat_box(bounding_box, geo_transform)
+    LOGGER.info(
+        f"Requested long {args.long} lat {args.lat} gets "
+        f"pixels {uganda_pixel_range} from band x={lspop_band.XSize} "
+        f"y={lspop_band.YSize}."
+    )
     city_peaks = largest_within_distance(lspop_band, args.peak_radius, uganda_pixel_range)
     peaks_hash = write_peaks(city_peaks, args.peaks)
     write_args(Path("record.txt"), args, {"peaks-hash": peaks_hash})
