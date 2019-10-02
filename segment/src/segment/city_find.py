@@ -1,8 +1,13 @@
+import logging
 from itertools import product
 from os import linesep
 
+from progressbar import progressbar
+
 from .raster_access import sub_band_as_numpy
 from .raster_transform import LongLat
+
+LOGGER = logging.getLogger(__name__)
 
 
 def largest_within_distance(band, distance, bounding_box_pixels=None):
@@ -16,8 +21,7 @@ def largest_within_distance(band, distance, bounding_box_pixels=None):
     not_a_peak = 0
     if not bounding_box_pixels:
         bounding_box_pixels = LongLat([0, band.XSize], [0, band.YSize])
-    for j in range(*bounding_box_pixels.lat):
-        print(f"{j} ", end="")
+    for j in progressbar(range(*bounding_box_pixels.lat)):
         y_limits = (max(0, j - distance), min(band.YSize, j + distance + 1))
         map_j = j - y_limits[0]
         map = sub_band_as_numpy(band, y_limits)

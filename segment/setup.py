@@ -11,6 +11,7 @@ setup(
         "numpy",
         "pandas",
         "scipy",
+        "progressbar2",
     ],
     extras_require={
         "testing": ["pytest"],

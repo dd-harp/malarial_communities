@@ -10,6 +10,9 @@ Welcome to DD-HARP Segment's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   install
+   data
+   runtime
 
 
 Indices and tables
