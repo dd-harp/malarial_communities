@@ -1,7 +1,7 @@
 import logging
 
 import networkx as nx
-import pandas as pd
+from networkx.algorithms.flow import shortest_augmenting_path
 
 LOGGER = logging.getLogger(__name__)
 
@@ -42,7 +42,10 @@ def split_graph(flow_graph, maximum_node_count):
     while work:
         parent_component, parent_id = work.pop()
         parent_graph = nx.Graph(flow_graph.subgraph(parent_component))
-        remove_edges = nx.minimum_edge_cut(parent_graph)
+        remove_edges = nx.minimum_edge_cut(
+            parent_graph,
+            flow_func=shortest_augmenting_path,
+        )
         parent_graph.remove_edges_from(remove_edges)
 
         for child_component in nx.connected_components(parent_graph):
