@@ -9,6 +9,6 @@ updated for the latest OS, so it won't run. The best bet is to use
 a slightly-older Ubuntu and find the ubuntugis ppa.
 
  1. conda create -n venv numpy scipy
- 2. conda install gdal poppler kealib
+ 2. conda install gdal poppler kealib pytables
  3. conda install matplotlib
  4. pip install -e segment

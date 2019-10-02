@@ -8,10 +8,11 @@ setup(
     use_scm_version={"root": "..", "relative_to": __file__},
     setup_requires=["setuptools_scm"],
     install_requires=[
+        "networkx",
         "numpy",
         "pandas",
-        "scipy",
         "progressbar2",
+        "scipy",
     ],
     extras_require={
         "testing": ["pytest"],
