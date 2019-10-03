@@ -6,10 +6,11 @@ import logging
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from inspect import getfile, getmodule
 from pathlib import Path
+from pickle import dump, load
 
 from osgeo import gdal
 
-from .communities import split_graph, save_pandas
+from .communities import save_pandas, split_disconnected_graph
 from .flux import create_city_flows
 from .input_data import load_lspop, load_cities, load_pfpr
 
@@ -40,6 +41,11 @@ def parser():
                            help=("Path to output file"))
     parse_obj.add_argument("--peak-radius", type=float, default=25,
                            help=("Distance in km for which peak is maximal."))
+    parse_obj.add_argument("--largest-component", type=int, default=10,
+                           help=("The largest number of cities that could "
+                                 "be together in a single component."))
+    parse_obj.add_argument("--city-graph", type=Path, default=None,
+                           help=("A city graph pickle file."))
     parse_obj.add_argument("--verbose", "-v", action="count", help="verbose",
                            default=0)
     parse_obj.add_argument("--quiet", "-q", action="count", help="quiet",
@@ -52,6 +58,22 @@ def entry():
     logging_level = logging.INFO - 10 * args.verbose + 10 * args.quiet
     logging.basicConfig(level=logging_level)
 
+    make_city_graph = args.city_graph is None or not args.city_graph.exists()
+
+    if make_city_graph:
+        city_graph_with_flows = create_city_graph(args)
+        if args.city_graph is not None:
+            dump(city_graph_with_flows, args.city_graph.open("wb"))
+    else:
+        city_graph_with_flows = load(args.city_graph.open("rb"))
+
+    graph, hierarchy = split_disconnected_graph(
+        city_graph_with_flows,  args.largest_component
+    )
+    save_pandas(graph, hierarchy, args.segmented)
+
+
+def create_city_graph(args):
     gdal.AllRegister()  # Initializes drivers to read files.
     for expand in ["peaks", "lspop", "pfpr"]:
         arg_path = getattr(args, expand).expanduser()
@@ -59,15 +81,12 @@ def entry():
             LOGGER.error(f"Path to {expand} not found: {arg_path}")
             exit(1)
         setattr(args, expand, arg_path)
-
     cities = load_cities(args.peaks)
     lspop = load_lspop(args.lspop)
     pfpr = load_pfpr(args.pfpr)
     radius = args.peak_radius * 1000  # Convert to meters.
-
     city_graph_with_flows = create_city_flows(cities, lspop, pfpr, radius)
-    segmented, hierarchy = split_graph(city_graph_with_flows, 250)
-    save_pandas(segmented, hierarchy, args.segmented)
+    return city_graph_with_flows
 
 
 if __name__ == "__main__":

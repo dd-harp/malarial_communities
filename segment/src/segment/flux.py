@@ -117,5 +117,4 @@ def create_city_flows(cities, lspop, pfpr, radius):
     gravity_cutoff = 200_000
     exponent = 1.0
     city_graph = calculate_flows(pop_pfpr, gravity_cutoff, exponent)
-
     return city_graph
