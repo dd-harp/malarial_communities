@@ -23,9 +23,10 @@ def split_graph(flow_graph, maximum_node_count, group_cnt):
         maximum_node_count (int): No subgraph should be larger than this.
 
     Returns:
-        (nx.Graph, nx.DiGraph): The original graph, marking which nodes belong
-                                to which subgraphs, and a tree of which
-                                subgraphs have which parents.
+        (nx.Graph, nx.DiGraph, int):
+            The original graph, marking which nodes belong
+            to which subgraphs, and a tree of which
+            subgraphs have which parents.
 
     """
     work = list()

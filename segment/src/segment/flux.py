@@ -79,12 +79,10 @@ def calculate_flows(pop_pfpr, cutoff, exponent):
     lspop_scale = 1000  # a kilometer
     k = calculate_gravity_constant(cutoff, exponent, lspop_scale)
     cities = nx.Graph()
-    cities.add_nodes_from(
-        zip(
-            range(pop_pfpr.shape[0]),
-            [dict(longlat=x) for x in pop_pfpr[:, 2:4]]
-        )
-    )
+    for city_idx in range(pop_pfpr.shape[0]):
+        lon, lat = pop_pfpr[city_idx, 2:4]
+        cities.add_node(city_idx, longlat=[lon, lat])
+        LOGGER.debug(f"City {city_idx} lon {lon} lat {lat}")
     assert len(cities.nodes) == pop_pfpr.shape[0]
 
     # x-y-z kd-tree so we can use meters.
