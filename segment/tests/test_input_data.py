@@ -6,6 +6,7 @@ def test_load_lspop():
     lspop_ds, lspop_band = input_data.load_lspop(landscan_file)
     assert hasattr(lspop_ds, "GetDriver")
     assert hasattr(lspop_band, "ReadRaster")
+    print(f"lspops geotransform {lspop_ds.GetGeoTransform()}")
 
 
 def test_load_cities(tmp_path):
@@ -26,3 +27,4 @@ def test_load_pfpr():
     lspop_ds, lspop_band = input_data.load_pfpr(pfpr_file)
     assert hasattr(lspop_ds, "GetDriver")
     assert hasattr(lspop_band, "ReadRaster")
+    print(f"pfpr geotransform {lspop_ds.GetGeoTransform()}")

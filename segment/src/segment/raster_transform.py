@@ -20,7 +20,9 @@ class Direction(Enum):
 
 def pixel_containing(point, geo_transform):
     """
-    Which pixel has this long-lat?
+    Which pixel has this long-lat? This version won't work if there
+    is shear. To implement it with shear, turn this into homogeneous
+    coordinates and invert the geo_transform.
 
     Args:
         point: A point in longitude and latitude.
@@ -29,9 +31,10 @@ def pixel_containing(point, geo_transform):
     Returns:
         List[int]: With an x, y of the containing point.
     """
+    assert (geo_transform[2] == 0) and (geo_transform[4] == 0)
     return [
-        int(floor(1.0 / geo_transform[1]) * (point[0] - geo_transform[0])),
-        int(floor(1.0 / geo_transform[5]) * (point[1] - geo_transform[3])),
+        int(floor(1.0 / geo_transform[1] * (point[0] - geo_transform[0]))),
+        int(floor(1.0 / geo_transform[5] * (point[1] - geo_transform[3]))),
     ]
 
 
@@ -58,7 +61,7 @@ def pixels_range_near_point(point, radius_in_meters, geo_transform):
     longlat = np.zeros((4, 2), dtype=np.int)
     for idx, direction in enumerate(Direction):
         geo_dict = WGS84.Direct(
-            point[1], point[0], direction, radius_in_meters
+            point[1], point[0], direction.value, radius_in_meters
         )
         far_point = [geo_dict["lon2"], geo_dict["lat2"]]
         longlat[idx] = pixel_containing(far_point, geo_transform)
@@ -102,3 +105,17 @@ def pixel_corners_of_longlat_box(corners, geo_transform):
     ]
     # This is a pair of longitudes and a pair of latitudes.
     return LongLat(longitude_range, latitude_range)
+
+
+def long_lat_to_xyz(long_lat):
+    earth_radius = 6378_000
+
+    lon = long_lat[:, 0] / 360.0
+    lat = long_lat[:, 1] / 360.0
+    cos_lat = np.cos(lat)
+    return earth_radius * np.stack([
+        cos_lat * np.cos(lon),
+        cos_lat * np.sin(lon),
+        np.sin(lat),
+    ], axis=1)
+
