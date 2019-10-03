@@ -5,7 +5,8 @@ from math import floor
 import numpy as np
 from geographiclib import geodesic
 
-WGS84 = geodesic.Constants.WGS84_f
+WGS84 = geodesic.Geodesic(
+    geodesic.Constants.WGS84_a, geodesic.Constants.WGS84_f)
 LongLat = namedtuple("LongLat", "long lat")
 """Longitude and latitude always get reversed, so use this to help."""
 

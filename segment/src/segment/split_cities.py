@@ -38,6 +38,8 @@ def parser():
                            help=("Path to PfPR data from MAP project."))
     parse_obj.add_argument("--segmented", type=Path, default=output_path,
                            help=("Path to output file"))
+    parse_obj.add_argument("--peak-radius", type=float, default=25,
+                           help=("Distance in km for which peak is maximal."))
     parse_obj.add_argument("--verbose", "-v", action="count", help="verbose",
                            default=0)
     parse_obj.add_argument("--quiet", "-q", action="count", help="quiet",
@@ -51,11 +53,19 @@ def entry():
     logging.basicConfig(level=logging_level)
 
     gdal.AllRegister()  # Initializes drivers to read files.
+    for expand in ["peaks", "lspop", "pfpr"]:
+        arg_path = getattr(args, expand).expanduser()
+        if not arg_path.exists():
+            LOGGER.error(f"Path to {expand} not found: {arg_path}")
+            exit(1)
+        setattr(args, expand, arg_path)
+
     cities = load_cities(args.peaks)
     lspop = load_lspop(args.lspop)
     pfpr = load_pfpr(args.pfpr)
+    radius = args.peak_radius * 1000  # Convert to meters.
 
-    city_graph_with_flows = create_city_flows(cities, lspop, pfpr)
+    city_graph_with_flows = create_city_flows(cities, lspop, pfpr, radius)
     segmented, hierarchy = split_graph(city_graph_with_flows, 250)
     save_pandas(segmented, hierarchy, args.segmented)
 

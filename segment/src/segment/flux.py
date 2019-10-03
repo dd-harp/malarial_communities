@@ -8,11 +8,11 @@ from .raster_transform import pixel_coord, pixels_range_near_point, distance
 
 
 def sum_within_box(arr_np, bounds):
-    return 3
+    return arr_np[bounds[0][0]:bounds[0][1], bounds[1][0]:bounds[1][1]].sum()
 
 
 def average_within_box(arr_np, bounds):
-    return 0.2
+    return arr_np[bounds[0][0]:bounds[0][1], bounds[1][0]:bounds[1][1]].mean()
 
 
 def assign_pop_and_pfpr_to_points(cities, lspop, pfpr, radius):
@@ -25,26 +25,27 @@ def assign_pop_and_pfpr_to_points(cities, lspop, pfpr, radius):
 
     Args:
         cities:
-        lspop:
-        pfpr:
+        lspop_np: A namespace with a dataset and a band.
+        pfpr_np: A namespace with a dataset and a band.
         radius (float): Distance of influence for that city.
 
     Returns:
         np.array: With shape (cities, 4) for pop, pfpr, longitude, latitude.
     """
-    lspop = band_as_numpy(lspop.band)
+    assert cities.shape[1] == 2
+    lspop_np = band_as_numpy(lspop.band)
     pop_geo = lspop.dataset.GetGeoTransform()
-    pfpr = band_as_numpy(pfpr.band)
+    pfpr_np = band_as_numpy(pfpr.band)
     pfpr_geo = pfpr.dataset.GetGeoTransform()
 
     pop_pfpr = np.zeros((len(cities), 4), dtype=np.float)
     for idx, city_coordinate_in_pop_raster in enumerate(cities):
         long_lat = pixel_coord(city_coordinate_in_pop_raster, pop_geo)
         pop_corners = pixels_range_near_point(long_lat, radius, pop_geo)
-        pop = sum_within_box(lspop, pop_corners)
+        pop = sum_within_box(lspop_np, pop_corners)
         pfpr_corners = pixels_range_near_point(long_lat, radius, pfpr_geo)
-        pfpr = average_within_box(pfpr, pfpr_corners)
-        pop_pfpr[idx] = [pop, pfpr, long_lat[0], long_lat[1]]
+        pfpr_np = average_within_box(pfpr_np, pfpr_corners)
+        pop_pfpr[idx] = [pop, pfpr_np, long_lat[0], long_lat[1]]
     return pop_pfpr
 
 
@@ -73,11 +74,12 @@ def calculate_flows(pop_pfpr, cutoff, exponent):
     for city_idx in range(pop_pfpr.shape[0]):
         near = kdtree.query_ball_point(pop_pfpr[city_idx, 2:4], cutoff)
         for n in near:
-            if n == city_idx:
+            if n == city_idx or (n, city_idx) in cities.edges:
                 continue
             r_ij = distance(pop_pfpr[city_idx, 2:4], pop_pfpr[n, 2:4])
             pfpr_avg = 0.5 * (pop_pfpr[city_idx, 1] + pop_pfpr[n, 1])
-            flux = pfpr_avg * pop_pfpr[city_idx, 0] * pop_pfpr[n, 0] * k / r_ij**exponent
+            product_pop = pop_pfpr[city_idx, 0] * pop_pfpr[n, 0]
+            flux = pfpr_avg * product_pop * k / r_ij**exponent
             cities.add_edge(city_idx, n, capacity=flux)
     return cities
 
@@ -90,7 +92,7 @@ def create_city_flows(cities, lspop, pfpr, radius):
     assert str(gdal.GetDataTypeName(lspop.band.DataType)) == "Int32"
     assert str(gdal.GetDataTypeName(pfpr.band.DataType)) == "Float64"
 
-    pop_pfpr = assign_pop_and_pfpr_to_points(cities, lspop, pfpr, radius)
+    pop_pfpr = assign_pop_and_pfpr_to_points(cities[:, 1:3], lspop, pfpr, radius)
     gravity_cutoff = 200_000
     exponent = 2.0
     city_graph = calculate_flows(pop_pfpr, gravity_cutoff, exponent)
