@@ -96,17 +96,17 @@ def entry():
     assert len(args.lat) == 2, "Give a min and max latitude"
 
     gdal.AllRegister()  # Initializes drivers to read files.
-    lspop_dataset, lspop_band = load_lspop(args.lspop)
+    lspop = load_lspop(args.lspop)
 
     bounding_box = [LongLat(args.long[i], args.lat[i]) for i in [0, 1]]
-    geo_transform = lspop_dataset.GetGeoTransform()
+    geo_transform = lspop.dataset.GetGeoTransform()
     uganda_pixel_range = pixel_corners_of_longlat_box(bounding_box, geo_transform)
     LOGGER.info(
         f"Requested long {args.long} lat {args.lat} gets "
-        f"pixels {uganda_pixel_range} from band x={lspop_band.XSize} "
-        f"y={lspop_band.YSize}."
+        f"pixels {uganda_pixel_range} from band x={lspop.band.XSize} "
+        f"y={lspop.band.YSize}."
     )
-    city_peaks = largest_within_distance(lspop_band, args.peak_radius, uganda_pixel_range)
+    city_peaks = largest_within_distance(lspop.band, args.peak_radius, uganda_pixel_range)
     peaks_hash = write_peaks(city_peaks, args.peaks)
     write_args(Path("record.txt"), args, {"peaks-hash": peaks_hash})
 
