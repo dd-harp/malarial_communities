@@ -40,5 +40,4 @@ def largest_within_distance(band, distance, bounding_box_pixels=None):
             else:
                 not_a_peak += 1
     LOGGER.info(f"{linesep}Found {len(peaks)} and discarded {not_a_peak}.")
-    peaks.sort()
     return peaks

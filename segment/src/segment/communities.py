@@ -62,10 +62,10 @@ def split_disconnected_graph(flow_graph, maximum_node_count):
     hierarchy = nx.DiGraph()
     hierarchy.add_node(1)  # The loners
     for reduced in nx.connected_components(flow_graph):
-        LOGGER.debug(f"Connected component size {len(reduced)}")
         # Each reduced is a set of node keys.
         reduced_graph = flow_graph.subgraph(reduced)
         if len(reduced) > maximum_node_count:
+            LOGGER.debug(f"Connected component size {len(reduced)}")
             segmented, sub_hierarchy, group_cnt = split_graph(
                 reduced_graph, maximum_node_count, group_cnt
             )
@@ -73,6 +73,7 @@ def split_disconnected_graph(flow_graph, maximum_node_count):
             for n in segmented.nodes:
                 flow_graph.nodes[n]["group"] = segmented.nodes[n]["group"]
         elif len(reduced) > 1:
+            LOGGER.debug(f"Already small component size {len(reduced)}")
             _set_group(flow_graph, reduced, group_cnt)
             hierarchy.add_node(group_cnt)
             group_cnt += 1
